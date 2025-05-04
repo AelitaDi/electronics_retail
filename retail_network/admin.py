@@ -11,7 +11,7 @@ class LinkAdmin(admin.ModelAdmin):
         "debt",
         "provider",
     )
-    list_display_links = ("provider",)
+    list_display_links = ("provider", "name")
     list_filter = (
         "contacts__city",
         "provider",
