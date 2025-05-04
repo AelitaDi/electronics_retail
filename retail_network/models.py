@@ -8,6 +8,7 @@ class Product(models.Model):
     """
     Модель продукта.
     """
+
     name = models.CharField(
         max_length=250,
         verbose_name="Наименование",
@@ -18,8 +19,10 @@ class Product(models.Model):
         verbose_name="Модель",
         help_text="Введите модель продукта",
     )
-    release_date = models.DateField(verbose_name="Дата выхода продукта на рынок",
-                                    help_text="Введите дату выхода продукта на рынок", )
+    release_date = models.DateField(
+        verbose_name="Дата выхода продукта на рынок",
+        help_text="Введите дату выхода продукта на рынок",
+    )
 
     def __str__(self):
         return f"{self.name} {self.model}"
@@ -34,25 +37,28 @@ class Link(models.Model):
     """
     Модель звена сети.
     """
+
     name = models.CharField(
         max_length=250,
         verbose_name="Наименование",
         help_text="Введите наименование звена",
     )
     products = models.ManyToManyField(
-        "Product",
-        related_name="products",
-        verbose_name="продукты")
+        "Product", related_name="products", verbose_name="продукты"
+    )
     provider = models.ForeignKey(
         "Link",
         on_delete=models.SET_NULL,
         verbose_name="поставщик",
-        help_text="Укажите поставщика", **NULLABLE)
-    debt = models.FloatField(default=0.0,
-                             validators=[MinValueValidator(0.0)],
-                             verbose_name="задолженность перед поставщиком",
-                             help_text="Укажите величину задолженности",
-                             )
+        help_text="Укажите поставщика",
+        **NULLABLE,
+    )
+    debt = models.FloatField(
+        default=0.0,
+        validators=[MinValueValidator(0.0)],
+        verbose_name="задолженность перед поставщиком",
+        help_text="Укажите величину задолженности",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -68,11 +74,13 @@ class Contacts(models.Model):
     """
     Модель контактов звена сети.
     """
-    link = models.ForeignKey("Link", on_delete=models.CASCADE, verbose_name="Звено", related_name="contacts")
+
+    link = models.ForeignKey(
+        "Link", on_delete=models.CASCADE, verbose_name="Звено", related_name="contacts"
+    )
     email = models.EmailField(
-        verbose_name="Email",
-        help_text="Введите Email",
-        **NULLABLE)
+        verbose_name="Email", help_text="Введите Email", **NULLABLE
+    )
     country = models.CharField(
         max_length=150,
         verbose_name="Страна",
